@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Personal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Personal.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface ISpendingRepository : IRepository<Spending>
     {
-        ICategoryRepository Category { get; }
-        ISpendingRepository Spending { get; }
-
-        void Save();
+        void Update(Spending obj);
     }
 }

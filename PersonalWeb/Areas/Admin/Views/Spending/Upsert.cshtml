@@ -1,0 +1,64 @@
+﻿@model SpendingVM
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">@(Model.Spending.Id != 0? "Edit":"Add") Spending</h3>
+
+                    <!-- Add Spending Form -->
+                    <form asp-action="Upsert" method="post">
+
+                        <input asp-for="@Model.Spending.Id" hidden />
+                        <input asp-for="@Model.Spending.DateTime" hidden />
+
+                        <!-- Amount Field -->
+                        <div class="form-group">
+                            <label asp-for="Spending.Amount" class="form-label">Amount</label>
+                            <input asp-for="Spending.Amount" class="form-control" placeholder="Enter amount" />
+                            <span asp-validation-for="Spending.Amount" class="text-danger"></span>
+                        </div>
+
+                        <!-- Category Dropdown -->
+                        <div class="form-group">
+                            <label asp-for="Spending.CategoryId" class="form-label">Category</label>
+                            <select asp-for="Spending.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+                                <option disabled selected>--Select Category--</option>
+                            </select>
+                        </div>
+
+                        <!-- Optional Description -->
+                        <div class="form-group">
+                            <label asp-for="Spending.Description" class="form-label">Description (Optional)</label>
+                            <textarea asp-for="Spending.Description" class="form-control" rows="3" placeholder="Enter a description (optional)"></textarea>
+                            <span asp-validation-for="Spending.Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Submit</button>
+                        </div>
+                        @if (Model.Spending.Id != 0)
+                        {
+                            <div class="text-center mt-4 ">
+                                <a asp-controller="Spending" asp-action="AnalyticsTable" asp-area="Admin" class="btn btn-outline-secondary form-control">Go Back</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center mt-4 ">
+                                <a asp-controller="Home" asp-action="Index" asp-area="Customer" class="btn btn-outline-secondary form-control">Go Back</a>
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}

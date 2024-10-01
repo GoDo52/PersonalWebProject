@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Personal.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using Personal.DataAccess.Data;
 namespace Personal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240927122610_AddCategoryAndSpendingToDb")]
+    partial class AddCategoryAndSpendingToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,8 +95,6 @@ namespace Personal.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Spendings", (string)null);
 
                     b.HasData(
@@ -102,7 +103,7 @@ namespace Personal.DataAccess.Migrations
                             Id = 1,
                             Amount = 10m,
                             CategoryId = 1,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9026),
+                            DateTime = new DateTime(2024, 9, 27, 15, 26, 9, 584, DateTimeKind.Local).AddTicks(706),
                             UserId = 1
                         },
                         new
@@ -110,7 +111,7 @@ namespace Personal.DataAccess.Migrations
                             Id = 2,
                             Amount = 19m,
                             CategoryId = 4,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9078),
+                            DateTime = new DateTime(2024, 9, 27, 15, 26, 9, 584, DateTimeKind.Local).AddTicks(745),
                             UserId = 2
                         },
                         new
@@ -118,20 +119,9 @@ namespace Personal.DataAccess.Migrations
                             Id = 3,
                             Amount = 5m,
                             CategoryId = 2,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9081),
+                            DateTime = new DateTime(2024, 9, 27, 15, 26, 9, 584, DateTimeKind.Local).AddTicks(748),
                             UserId = 1
                         });
-                });
-
-            modelBuilder.Entity("Personal.Models.Spending", b =>
-                {
-                    b.HasOne("Personal.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

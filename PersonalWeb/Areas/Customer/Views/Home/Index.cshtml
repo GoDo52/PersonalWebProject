@@ -1,8 +1,44 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Sle1n";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Add Spending -->
+        <div class="col-md-6 mb-4">
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Spending" asp-action="Upsert">
+                <div class="card text-white bg-dark">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Add Spending</h4>
+                        <p class="card-text">Create a new spending</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Spendings Box -->
+        <div class="col-md-6 mb-4">
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Spending" asp-action="Index">
+                <div class="card text-white bg-dark">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Spendings</h4>
+                        <p class="card-text">Track and view your spendings</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Categories Box -->
+        <div class="col-md-6 mb-4">
+           <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">
+                <div class="card text-white bg-dark">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Categories</h4>
+                        <p class="card-text">Manage your spending categories</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>

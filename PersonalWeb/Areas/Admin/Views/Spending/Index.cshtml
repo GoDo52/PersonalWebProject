@@ -1,0 +1,57 @@
+﻿@model Spending
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end mb-4">
+            <a class="btn btn-primary" asp-area="Customer" asp-controller="Home" asp-action="Index">
+                Back <i class="bi bi-arrow-left-circle"></i>
+            </a>
+        </div>
+        <div class="col-md-6 mb-4">
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Spending" asp-action="AnalyticsTable">
+                <div class="card text-white bg-dark shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Manage Entries</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Spending" asp-action="AnalyticsTable">
+                <div class="card text-white bg-dark shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">View Analytics</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Total Amount of Spendings and Top Spender Row -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-white bg-info shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Spendings</h5>
+                    <p class="card-text">
+                        <!-- Dynamically populated with the total spendings -->
+                        <strong>Total: </strong> 666$
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card text-white bg-info shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Top Spender (This Month)</h5>
+                    <p class="card-text">
+                        <!-- Dynamically populated with the top spender for the month -->
+                        <strong>Top Spender: </strong> User
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

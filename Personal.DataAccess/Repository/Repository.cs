@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace Personal.DataAccess.Repository
 {
@@ -20,6 +21,7 @@ namespace Personal.DataAccess.Repository
             _db = db;
             this.dbSet = _db.Set<T>();
             // _db.Categories == dbSet
+            _db.Spendings.Include(u => u.Category);
         }
 
         public void Add(T entity)
@@ -27,16 +29,33 @@ namespace Personal.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            query = query.Where(filter);
+            query = query.Where(filter); 
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties.
+                    Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        // Category, CategoryId
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties.
+                    Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             return query.ToList();
         }
 
