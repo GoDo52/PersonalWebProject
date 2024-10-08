@@ -13,16 +13,15 @@
 			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 
-		<div class="row">
-			<div class="col-6 col-md-3">
-				<button type="submit" class="btn btn-primary form-control">Create</button>
-			</div>
-			<div class="col-6 col-md-3">
-				<a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary form-control">
-					Go Back
-				</a>
-			</div>
+		<div class="text-center mt-4">
+			<button type="submit" class="btn btn-outline-primary form-control">Create</button>
 		</div>
+		<div class="text-center mt-4">
+			<a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary form-control">
+				Go Back
+			</a>
+		</div>
+
 	</div>
 </form>
 

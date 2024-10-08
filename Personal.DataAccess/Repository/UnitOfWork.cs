@@ -13,12 +13,16 @@ namespace Personal.DataAccess.Repository
         private ApplicationDbContext _db;
         public ICategoryRepository Category { get; private set; }
         public ISpendingRepository Spending { get; private set; }
+        public IUserRepository User { get; private set; }
+        public IRoleRepository Role { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepository(_db);
             Spending = new SpendingRepository(_db);
+            User = new UserRepository(_db);
+            Role = new RoleRepository(_db);
         }
 
         public void Save()

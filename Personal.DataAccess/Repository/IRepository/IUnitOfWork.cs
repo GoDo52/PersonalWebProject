@@ -10,6 +10,8 @@ namespace Personal.DataAccess.Repository.IRepository
     {
         ICategoryRepository Category { get; }
         ISpendingRepository Spending { get; }
+        IUserRepository User { get; }
+        IRoleRepository Role { get; }
 
         void Save();
     }

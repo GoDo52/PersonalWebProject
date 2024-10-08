@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
 using Personal.DataAccess.Repository;
 using Personal.DataAccess.Repository.IRepository;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

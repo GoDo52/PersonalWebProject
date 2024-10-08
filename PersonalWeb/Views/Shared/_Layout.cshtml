@@ -1,9 +1,4 @@
-﻿@{
-    var isHomeIndex = string.Equals(ViewContext.RouteData.Values["controller"].ToString(), "Home", StringComparison.OrdinalIgnoreCase) &&
-                  string.Equals(ViewContext.RouteData.Values["action"].ToString(), "Index", StringComparison.OrdinalIgnoreCase);
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,27 +20,10 @@
     </style>
 </head>
 <body>
-@*     <header>
-        <div class="container text-center py-3">
-            <h1>@ViewData["Title"]</h1>
-        </div>
-    </header> *@
+    @await Html.PartialAsync("_Notification")
     <main role="main" class="pb-3 center-screen">
         @RenderBody()
     </main>
-
-    @* @if (!isHomeIndex)
-    { 
-        <footer class="footer py-1">
-            <p>&copy; 2024 - Personal App</p>
-            <div class="container text-center">
-                    <a asp-controller="Home" asp-action="Index" asp-area="Customer" class="btn btn-primary bg-dark">
-
-                    Home <i class="bi bi-arrow-left-circle"></i>
-                </a>
-            </div>
-        </footer>
-    } *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

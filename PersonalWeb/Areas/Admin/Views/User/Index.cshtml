@@ -1,10 +1,10 @@
-﻿@model List<Category>
+﻿@model List<User>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
-        <h2>Manage Categories</h2>
+        <h2>Manage Users</h2>
         <div class="col-12 d-flex justify-content-end mb-4">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="User" asp-action="Upsert">
                 Add <i class="bi bi-plus-circle"></i>
             </a>
             <a class="btn btn-primary" asp-area="Customer" asp-controller="Home" asp-action="Index">
@@ -13,11 +13,14 @@
         </div>
     </div>
 
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Category Name</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,13 +29,15 @@
             {
                 <tr>
                     <td>@obj.Id</td>
-                    <td>@obj.Name</td>
+                    <td>@obj.UserName</td>
+                    <td>@obj.Email</td>
+                    <td>@obj.Role.Name</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-outline-info mx-1">
+                            <a asp-controller="User" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-outline-info mx-1">
                                 Edit <i class="bi bi-pencil"></i>
                             </a>
-                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger mx-55">
+                            <a asp-controller="User" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger mx-55">
                                 Delete <i class="bi bi-x-circle"></i>
                             </a>
                         </div>

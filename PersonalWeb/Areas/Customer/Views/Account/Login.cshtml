@@ -1,0 +1,47 @@
+﻿@model UserLogin
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Login</h3>
+
+                    <!-- Add Spending Form -->
+                    <form asp-action="Login" method="post">
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" placeholder="Enter Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-outline-primary btn-lg w-100">Login</button>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="text-center mt-4">
+                            <a asp-action="Register" asp-controller="Account" asp-area="Customer">Don't have an account?</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}

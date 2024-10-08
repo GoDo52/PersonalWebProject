@@ -1,0 +1,64 @@
+﻿@model UserVM
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">@(Model.User.Id != 0 ? "Edit" : "Add") User</h3>
+
+                    <!-- Add User Form -->
+                    <form asp-action="Upsert" method="post">
+
+                        <input asp-for="@Model.User.Id" hidden />
+
+                        <!-- UserName Field -->
+                        <div class="form-group">
+                            <label asp-for="@Model.User.UserName" class="form-label"></label>
+                            <input asp-for="@Model.User.UserName" class="form-control" placeholder="Enter User Name" />
+                            <span asp-validation-for="@Model.User.UserName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label asp-for="@Model.User.Email" class="form-label"></label>
+                            <input asp-for="@Model.User.Email" class="form-control" placeholder="Enter Email" />
+                            <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Field (Only for Add User) -->
+                        @if (Model.User.Id == 0)
+                        {
+                            <div class="form-group">
+                                <label asp-for="@Model.Password" class="form-label"></label>
+                                <input asp-for="@Model.Password" class="form-control" placeholder="Enter Password" />
+                                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                            </div>
+                        }
+
+                        <!-- Role Dropdown -->
+                        <div class="form-group">
+                            <label asp-for="@Model.User.Role" class="form-label">Role</label>
+                            <select asp-for="@Model.User.RoleId" asp-items="@Model.RoleList" class="form-select">
+                                <option disabled selected>--Select Role--</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-outline-@(Model.User.Id != 0 ? "info" : "primary") btn-lg w-100">Submit</button>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a asp-controller="User" asp-action="Index" asp-area="Admin" class="btn btn-outline-secondary form-control">Go Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}

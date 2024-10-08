@@ -1,4 +1,4 @@
-﻿@model Spending
+﻿@model User
 
 <form method="post">
 	<input asp-for="Id" hidden/>
@@ -12,23 +12,23 @@
 			<input asp-for="Id" disabled class="form-control" />
 		</div>
 		<div class="mb-3 row">
-			<label asp-for="Amount" class="p-0"></label>
-			<input asp-for="Amount" disabled class="form-control" />
+			<label asp-for="UserName" class="p-0"></label>
+			<input asp-for="UserName" disabled class="form-control" />
 		</div>
 		<div class="mb-3 row">
-			<label asp-for="CategoryId" class="p-0"></label>
-			<input asp-for="CategoryId" disabled class="form-control" />
+			<label asp-for="Email" class="p-0"></label>
+			<input asp-for="Email" disabled class="form-control" />
 		</div>
 		<div class="mb-3 row">
-			<label asp-for="Description" class="p-0"></label>
-			<input asp-for="Description" disabled class="form-control" />
+			<label asp-for="Role.Name" class="p-0">Role</label>
+			<input asp-for="Role.Name" disabled class="form-control" />
 		</div>
 		<!-- Delete Button -->
 		<div class="text-center mt-4">
 			<button type="submit" class="btn btn-outline-danger btn-lg w-100">Delete</button>
 		</div>
 		<div class="text-center mt-4 ">
-			<a asp-controller="Spending" asp-action="AnalyticsTable" asp-area="Admin" class="btn btn-outline-secondary form-control">
+			<a asp-controller="User" asp-action="Index" asp-area="Admin" class="btn btn-outline-secondary form-control">
 				Go Back
 			</a>
 		</div>
@@ -37,6 +37,6 @@
 
 @section Scripts {
 	@{
-						<partial name="_ValidationScriptsPartial"/>
+		<partial name="_ValidationScriptsPartial"/>
 	}
 }

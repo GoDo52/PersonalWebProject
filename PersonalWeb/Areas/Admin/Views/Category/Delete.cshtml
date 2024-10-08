@@ -11,16 +11,13 @@
 			<label asp-for="Name" class="p-0"></label>
 			<input asp-for="Name" disabled class="form-control" />
 		</div>
-
-		<div class="row">
-			<div class="col-6 col-md-3">
-				<button type="submit" class="btn btn-danger form-control">Delete</button>
-			</div>
-			<div class="col-6 col-md-3">
-				<a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary form-control">
-					Go Back
-				</a>
-			</div>
+		<div class="text-center mt-4">
+			<button type="submit" class="btn btn-outline-danger form-control">Delete</button>
+		</div>
+		<div class="text-center mt-4">
+			<a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary form-control">
+				Go Back
+			</a>
 		</div>
 	</div>
 </form>

@@ -36,17 +36,20 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Submit</button>
-                        </div>
                         @if (Model.Spending.Id != 0)
                         {
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-outline-info btn-lg w-100">Submit</button>
+                            </div>
                             <div class="text-center mt-4 ">
-                                <a asp-controller="Spending" asp-action="AnalyticsTable" asp-area="Admin" class="btn btn-outline-secondary form-control">Go Back</a>
+                                <a asp-controller="Spending" asp-action="AnalyticsTable" asp-area="Customer" class="btn btn-outline-secondary form-control">Go Back</a>
                             </div>
                         }
                         else
                         {
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-outline-primary btn-lg w-100">Submit</button>
+                            </div>
                             <div class="text-center mt-4 ">
                                 <a asp-controller="Home" asp-action="Index" asp-area="Customer" class="btn btn-outline-secondary form-control">Go Back</a>
                             </div>

@@ -29,6 +29,7 @@ namespace Personal.DataAccess.Repository
                 // DateTime is why Update method is not in the generic Repository
                 spendingFromDb.DateTime = obj.DateTime;
                 spendingFromDb.Description = obj.Description;
+
                 _db.Spendings.Update(spendingFromDb);
             }
             else

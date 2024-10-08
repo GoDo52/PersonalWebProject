@@ -67,6 +67,40 @@ namespace Personal.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Personal.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "User"
+                        });
+                });
+
             modelBuilder.Entity("Personal.Models.Spending", b =>
                 {
                     b.Property<int>("Id")
@@ -102,7 +136,7 @@ namespace Personal.DataAccess.Migrations
                             Id = 1,
                             Amount = 10m,
                             CategoryId = 1,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9026),
+                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2585),
                             UserId = 1
                         },
                         new
@@ -110,7 +144,7 @@ namespace Personal.DataAccess.Migrations
                             Id = 2,
                             Amount = 19m,
                             CategoryId = 4,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9078),
+                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2627),
                             UserId = 2
                         },
                         new
@@ -118,9 +152,43 @@ namespace Personal.DataAccess.Migrations
                             Id = 3,
                             Amount = 5m,
                             CategoryId = 2,
-                            DateTime = new DateTime(2024, 9, 30, 20, 49, 7, 446, DateTimeKind.Local).AddTicks(9081),
+                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2630),
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("Personal.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Personal.Models.Spending", b =>
@@ -132,6 +200,17 @@ namespace Personal.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Personal.Models.User", b =>
+                {
+                    b.HasOne("Personal.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

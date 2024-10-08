@@ -4,9 +4,9 @@ using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
 using Personal.Models.ViewModels;
 
-namespace PersonalWeb.Areas.Admin.Controllers
+namespace PersonalWeb.Areas.Customer.Controllers
 {
-    [Area("Admin")]
+    [Area("Customer")]
     public class SpendingController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -83,8 +83,8 @@ namespace PersonalWeb.Areas.Admin.Controllers
                 else
                 {
 
-					spendingVM.Spending.UserId = 1;
-					_unitOfWork.Spending.Update(spendingVM.Spending);
+                    spendingVM.Spending.UserId = 1;
+                    _unitOfWork.Spending.Update(spendingVM.Spending);
                     _unitOfWork.Save();
                     TempData["success"] = "Spending Updated successfully!";
                     return RedirectToAction("AnalyticsTable", "Spending");
@@ -128,15 +128,5 @@ namespace PersonalWeb.Areas.Admin.Controllers
                 return RedirectToAction("AnalyticsTable", "Spending");
             }
         }
-
-        #region API CALLS
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            List<Spending> objSpendingList = _unitOfWork.Spending.GetAll(includeProperties: "Category").ToList();
-            return Json(new { data = objSpendingList });
-        }
-
-        #endregion
     }
 }

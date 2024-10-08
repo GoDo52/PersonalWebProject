@@ -2,16 +2,14 @@
 
 <div class="container">
     <div class="row pt-4 pb-3">
-        <div class="col-6">
-            <h2 class="text-primary">
-                Spending LIST
-            </h2>
-        </div>
-        <div class="col-6 tetx-end">
-            <a class="btn btn-primary" asp-area="Admin" asp-controller="Spending" asp-action="Upsert">
+        <h2 class="text-primary">
+            Spending LIST
+        </h2>
+        <div class="col-12 d-flex justify-content-end mb-4">
+            <a class="btn btn-primary" asp-area="Customer" asp-controller="Spending" asp-action="Upsert">
                 Add <i class="bi bi-plus-circle"></i>
             </a>
-            <a class="btn btn-primary" asp-area="Admin" asp-controller="Spending" asp-action="Index">
+            <a class="btn btn-primary" asp-area="Customer" asp-controller="Spending" asp-action="Index">
                 Back <i class="bi bi-arrow-left-circle"></i>
             </a>
         </div>
@@ -26,6 +24,7 @@
                 <th>Date</th>
                 <th>Description</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -38,10 +37,14 @@
                             <td>@obj.DateTime.Second:@obj.DateTime.Minute:@obj.DateTime.Hour @obj.DateTime.Day/@obj.DateTime.Month/@obj.DateTime.Year</td>
                             <td>@obj.Description</td>
                             <td>
-                                <div class="btn-group" role="group">
+                                <div class="d-flex justify-content-end">
                                     <a asp-controller="Spending" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-outline-info mx-1">
                                         Edit <i class="bi bi-pencil"></i>
                                     </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-end">
                                     <a asp-controller="Spending" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger mx-1">
                                         Delete <i class="bi bi-x-circle"></i>
                                     </a>

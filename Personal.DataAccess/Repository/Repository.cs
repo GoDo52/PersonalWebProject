@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 
 namespace Personal.DataAccess.Repository
 {
