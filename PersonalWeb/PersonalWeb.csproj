@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Personal.DataAccess\Personal.DataAccess.csproj" />
     <ProjectReference Include="..\Personal.Models\Personal.Models.csproj" />
+    <ProjectReference Include="..\Personal.Services\Personal.Services.csproj" />
   </ItemGroup>
 
 </Project>

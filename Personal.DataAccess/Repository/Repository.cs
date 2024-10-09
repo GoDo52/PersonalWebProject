@@ -21,9 +21,10 @@ namespace Personal.DataAccess.Repository
             this.dbSet = _db.Set<T>();
             // _db.Categories == dbSet
             _db.Spendings.Include(u => u.Category);
+            _db.Users.Include(u => u.Role);
         }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             dbSet.Add(entity);
         }

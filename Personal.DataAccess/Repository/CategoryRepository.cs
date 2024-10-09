@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Personal.DataAccess.Data;
+using Personal.DataAccess.Exceptions;
 
 namespace Personal.DataAccess.Repository
 {
@@ -19,8 +20,21 @@ namespace Personal.DataAccess.Repository
             _db = db;
         }
 
+        public override void Add(Category obj)
+        {
+            if (_db.Categories.Any(c => c.Name == obj.Name))
+            {
+                throw new DuplicateCategoryException();
+            }
+            base.Add(obj);
+        }
+
         public void Update(Category obj)
         {
+            if (_db.Categories.Any(c => c.Name == obj.Name))
+            {
+                throw new DuplicateCategoryException();
+            }
             _db.Categories.Update(obj);
         }
     }

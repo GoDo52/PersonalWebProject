@@ -8,6 +8,8 @@ using Personal.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Personal.DataAccess.Repository;
 using Microsoft.IdentityModel.Tokens;
+using Personal.Services;
+using Personal.DataAccess.Exceptions;
 
 namespace PersonalWeb.Areas.Admin.Controllers
 {
@@ -15,10 +17,12 @@ namespace PersonalWeb.Areas.Admin.Controllers
 	public class UserController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IUserService _userService;
 
-		public UserController(IUnitOfWork unitOfWork)
+		public UserController(IUnitOfWork unitOfWork, IUserService userService)
 		{
 			_unitOfWork = unitOfWork;
+			_userService = userService;
 		}
 
 		public IActionResult Index()
@@ -62,30 +66,50 @@ namespace PersonalWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(UserVM userVM)
         {
-			if (ModelState.IsValid || userVM.Password.IsNullOrEmpty())
+			if (ModelState.IsValid)
 			{
-				if (userVM.User.Id == 0)
+				UserRegistration userRegistration = new UserRegistration()
 				{
-					PasswordHasher hasher = new PasswordHasher(userVM.Password);
-					var passwordHash = hasher.MakeHash();
-					userVM.User.PasswordHash = passwordHash.Hash;
-					userVM.User.PasswordSalt = passwordHash.Salt;
+					UserName = userVM.User.UserName,
+					Email = userVM.User.Email,
+					Password = userVM.Password,
+				};
 
-					_unitOfWork.User.Add(userVM.User);
-					_unitOfWork.Save();
+                userVM.RoleList = _unitOfWork.Role.
+                GetAll().Select(
+                    u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }
+                );
 
-                    TempData["success"] = "User Added successfully!";
-                    return RedirectToAction("Index", "User");
-                }
-				else
+                // Tries to register or update the user, if any of those fail
+                // shows same error massages as the view is basically the same
+				try
 				{
-                    _unitOfWork.User.Update(userVM.User);
-                    _unitOfWork.Save();
+                    if (userVM.User.Id == 0)
+					{
+                        _userService.RegisterUser(userRegistration);
+                        TempData["success"] = "User Added successfully!";
+                        return RedirectToAction("Index", "User");
+                    }
+					else
+					{
+                        _unitOfWork.User.Update(userVM.User);
+                        _unitOfWork.Save();
 
-                    TempData["success"] = "User Updated successfully!";
-                    return RedirectToAction("Index", "User");
+                        TempData["success"] = "User Updated successfully!";
+                        return RedirectToAction("Index", "User");
+                    }
                 }
-            }
+                catch (DuplicateUserNameException ex)
+                {
+                    ModelState.AddModelError("User.UserName", ex.Message);
+                }
+                catch (DuplicateUserEmailException ex)
+                {
+                    ModelState.AddModelError("User.Email", ex.Message);
+                }
+
+                return View(userVM);
+			}
             else
 			{
 				userVM.RoleList = _unitOfWork.Role.

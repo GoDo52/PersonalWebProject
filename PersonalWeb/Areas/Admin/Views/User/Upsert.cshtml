@@ -35,6 +35,10 @@
                                 <span asp-validation-for="@Model.Password" class="text-danger"></span>
                             </div>
                         }
+                        else
+                        {
+                            <input asp-for="@Model.Password" value="Password69" hidden />
+                        }
 
                         <!-- Role Dropdown -->
                         <div class="form-group">

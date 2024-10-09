@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
+using Personal.DataAccess.Exceptions;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
 
@@ -28,21 +29,25 @@ namespace PersonalWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            //if (obj.Name != null && _categoryRepository.Categories.Any(c => c.Name == obj.Name))
-            //{
-            //    ModelState.AddModelError("name", "Category Name already exists!");
-            //    return View();
-            //}
+            
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Category Created successfully!";
-                return RedirectToAction("Index", "Category");
+                try
+                {
+                    _unitOfWork.Category.Add(obj);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Category Created successfully!";
+                    return RedirectToAction("Index", "Category");
+                }
+                catch (DuplicateCategoryException ex)
+                {
+                    ModelState.AddModelError("Name", ex.Message);
+                    return View(obj);
+                }
             }
             else
             {
-                return View();
+                return View(obj);
             }
         }
 
@@ -64,21 +69,24 @@ namespace PersonalWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            //if (obj.Name != null && _db.Categories.Any(c => c.Name == obj.Name))
-            //{
-            //    ModelState.AddModelError("name", "Can not be the same name or the existing name!");
-            //    return View();
-            //}
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Category Updated successfully!";
-                return RedirectToAction("Index", "Category");
+                try
+                {
+                    _unitOfWork.Category.Update(obj);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Category Updated successfully!";
+                    return RedirectToAction("Index", "Category");
+                }
+                catch (DuplicateCategoryException ex)
+                {
+                    ModelState.AddModelError("Name", ex.Message);
+                    return View(obj);
+                }
             }
             else
             {
-                return View();
+                return View(obj);
             }
         }
 

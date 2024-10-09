@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Personal.DataAccess.Exceptions;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
+using Personal.Services;
 using Personal.Utility;
 
 namespace PersonalWeb.Areas.Customer.Controllers
@@ -8,11 +10,13 @@ namespace PersonalWeb.Areas.Customer.Controllers
     [Area("Customer")]
     public class AccountController : Controller
     {
+        private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AccountController(IUnitOfWork unitOfWork)
+        public AccountController(IUnitOfWork unitOfWork, IUserService userService)
         {
             _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
         public IActionResult Login()
@@ -25,31 +29,22 @@ namespace PersonalWeb.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                PasswordHasher passwordHasher = new PasswordHasher(userLogin.Password);
-
-                // Retrieve user by email and get salt and hash
-                User user = _unitOfWork.User.Get(u => u.Email == userLogin.Email);
-                string saltFromDb = user.PasswordSalt;
-                string hashFromDb = user.PasswordHash;
-
-                bool checkHash = passwordHasher.VerifyPassword(hashFromDb, saltFromDb);
-
-                if (user != null && checkHash)
+                // TODO: implement exceptions???
+                if (_userService.VerifyUserOnLogin(userLogin.Email, userLogin.Password, out var user))
                 {
-                    // TODO: Set up the session to track user login
-
-                    return RedirectToAction("Index", "Home");
+					// TODO: Set up the session to track user login
+					TempData["success"] = "Login successful!";
+					return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid email or password");
-                    return View(userLogin);
+                    ModelState.AddModelError("Email", "Invalid email or password");
+                    ModelState.AddModelError("Password", "Invalid email or password");
                 }
             }
-            else
-            {
-                return View(userLogin);
-            }
+            
+            return View(userLogin);
+            
         }
 
         public IActionResult Register()
@@ -62,28 +57,24 @@ namespace PersonalWeb.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                PasswordHasher hasher = new PasswordHasher(userRegistration.Password);
-                var passwordHash = hasher.MakeHash();
-
-                User newUser = new User
+                try
                 {
-                    UserName = userRegistration.UserName,
-                    Email = userRegistration.Email,
-                    PasswordHash = passwordHash.Hash,
-                    PasswordSalt = passwordHash.Salt,
-                    RoleId = SD.DefaultRoleId
-                };
-
-                _unitOfWork.User.Add(newUser);
-                _unitOfWork.Save();
-
-                TempData["success"] = "You have successfully registered!";
-                return RedirectToAction("Login", "Account");
+                    _userService.RegisterUser(userRegistration);
+                    TempData["success"] = "You have successfully registered!";
+                    return RedirectToAction("Login", "Account");
+                }
+                catch (DuplicateUserNameException ex)
+                {
+					ModelState.AddModelError("UserName", ex.Message);
+				}
+                catch (DuplicateUserEmailException ex)
+                {
+					ModelState.AddModelError("Email", ex.Message);
+				}
             }
-            else
-            {
-                return View(userRegistration);
-            }
+
+            return View(userRegistration);
+
         }
     }
 }

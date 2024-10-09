@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
 using Personal.DataAccess.Repository;
 using Personal.DataAccess.Repository.IRepository;
+using Personal.Services;
+using Personal.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();

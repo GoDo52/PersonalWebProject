@@ -8,19 +8,10 @@ using System.Threading.Tasks;
 
 namespace Personal.Utility
 {
-    public class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
-        private string _inputString { get; set; }
-
-        public PasswordHasher(string inputString)
+        public (string Hash, string Salt) HashPassword(string password)
         {
-            _inputString = inputString;
-        }
-
-        public (string Hash, string Salt) MakeHash()
-        {
-            string? password = _inputString;
-
             // Generate a 128-bit salt
             byte[] salt = RandomNumberGenerator.GetBytes(128 / 8);
 
@@ -38,16 +29,14 @@ namespace Personal.Utility
             return (hashed, saltString);
         }
 
-        public bool VerifyPassword(string storedHash, string storedSalt)
+        public bool VerifyPassword(string storedHash, string storedSalt, string password)
         {
-            string? inputPassword = _inputString;
-
             // Convert the stored salt back to byte array
             byte[] saltBytes = Convert.FromBase64String(storedSalt);
 
             // Hash the input password using the same salt
             string hashedInputPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: inputPassword,
+                password: password,
                 salt: saltBytes,
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 100000,
