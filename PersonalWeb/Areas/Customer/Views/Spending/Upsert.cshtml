@@ -20,6 +20,14 @@
                             <span asp-validation-for="Spending.Amount" class="text-danger"></span>
                         </div>
 
+                        <!-- User Name Dropdown -->
+                        <div class="form-group">
+                            <label asp-for="Spending.UserId" class="form-label">User</label>
+                            <select asp-for="Spending.UserId" asp-items="@Model.UserList" class="form-select">
+                                <option value="0" selected>--Select User--</option>
+                            </select>
+                        </div>
+
                         <!-- Category Dropdown -->
                         <div class="form-group">
                             <label asp-for="Spending.CategoryId" class="form-label">Category</label>

@@ -10,11 +10,13 @@ using Personal.DataAccess.Repository;
 using Microsoft.IdentityModel.Tokens;
 using Personal.Services;
 using Personal.DataAccess.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PersonalWeb.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class UserController : Controller
+    [Authorize(Roles = SD.AdminRole)]
+    public class UserController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IUserService _userService;

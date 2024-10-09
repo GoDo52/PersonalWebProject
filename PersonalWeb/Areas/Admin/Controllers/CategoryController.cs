@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
 using Personal.DataAccess.Exceptions;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
+using Personal.Utility;
 
 namespace PersonalWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.AdminRole)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

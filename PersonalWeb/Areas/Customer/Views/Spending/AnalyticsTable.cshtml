@@ -6,7 +6,7 @@
             Spending LIST
         </h2>
         <div class="col-12 d-flex justify-content-end mb-4">
-            <a class="btn btn-primary" asp-area="Customer" asp-controller="Spending" asp-action="Upsert">
+            <a class="btn btn-outline-primary" asp-area="Customer" asp-controller="Spending" asp-action="Upsert">
                 Add <i class="bi bi-plus-circle"></i>
             </a>
             <a class="btn btn-primary" asp-area="Customer" asp-controller="Spending" asp-action="Index">
@@ -31,7 +31,7 @@
             @foreach (var obj in Model)
             {
                         <tr>
-                            <td>@obj.UserId</td>
+                            <td>@obj.User.UserName</td>
                             <td>@obj.Category.Name</td>
                             <td>@obj.Amount</td>
                             <td>@obj.DateTime.Second:@obj.DateTime.Minute:@obj.DateTime.Hour @obj.DateTime.Day/@obj.DateTime.Month/@obj.DateTime.Year</td>

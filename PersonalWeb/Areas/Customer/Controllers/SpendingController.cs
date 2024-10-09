@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
 using Personal.Models.ViewModels;
+using Personal.Utility;
+using System.Security.Claims;
 
 namespace PersonalWeb.Areas.Customer.Controllers
 {
@@ -29,7 +32,7 @@ namespace PersonalWeb.Areas.Customer.Controllers
 
         public IActionResult AnalyticsTable()
         {
-            List<Spending> objSpendingList = _unitOfWork.Spending.GetAll(includeProperties: "Category").ToList();
+            List<Spending> objSpendingList = _unitOfWork.Spending.GetAll(includeProperties: "Category,User").ToList();
 
             return View(objSpendingList);
         }
@@ -42,6 +45,10 @@ namespace PersonalWeb.Areas.Customer.Controllers
                 CategoryList = _unitOfWork.Category.
                 GetAll().Select(
                     u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }
+                ),
+                UserList = _unitOfWork.User.
+                GetAll().Select(
+                    u => new SelectListItem { Text = u.UserName, Value = u.Id.ToString() }
                 )
             };
 
@@ -73,7 +80,13 @@ namespace PersonalWeb.Areas.Customer.Controllers
             {
                 if (spendingVM.Spending.Id == 0)
                 {
-                    spendingVM.Spending.UserId = 1;
+                    if (spendingVM.Spending.UserId == 0)
+                    {
+                        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                        spendingVM.Spending.UserId = Convert.ToInt32(userIdString);
+                    }
+
                     spendingVM.Spending.DateTime = DateTime.Now;
                     _unitOfWork.Spending.Add(spendingVM.Spending);
                     _unitOfWork.Save();
@@ -82,8 +95,7 @@ namespace PersonalWeb.Areas.Customer.Controllers
                 }
                 else
                 {
-
-                    spendingVM.Spending.UserId = 1;
+                    //spendingVM.Spending.UserId = 1;
                     _unitOfWork.Spending.Update(spendingVM.Spending);
                     _unitOfWork.Save();
                     TempData["success"] = "Spending Updated successfully!";
@@ -95,6 +107,10 @@ namespace PersonalWeb.Areas.Customer.Controllers
                 spendingVM.CategoryList = _unitOfWork.Category.
                 GetAll().Select(
                     u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }
+                );
+                spendingVM.UserList = _unitOfWork.User.
+                GetAll().Select(
+                    u => new SelectListItem { Text = u.UserName, Value = u.Id.ToString() }
                 );
                 return View(spendingVM);
             }

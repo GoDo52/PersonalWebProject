@@ -34,5 +34,9 @@ namespace Personal.Models
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+
+        [ForeignKey("UserId")]
+        [ValidateNever]
+        public User User { get; set; }
     }
 }

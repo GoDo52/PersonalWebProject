@@ -20,6 +20,9 @@
     </style>
 </head>
 <body>
+    <header class="text-end">
+        <p class="text-dark">Hello @(User.Identity.Name)!</p>
+    </header>
     @await Html.PartialAsync("_Notification")
     <main role="main" class="pb-3 center-screen">
         @RenderBody()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,5 +14,8 @@ namespace Personal.Models.ViewModels
         public Spending Spending { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> CategoryList { get; set; }
+        [ValidateNever]
+        [AllowNull]
+        public IEnumerable<SelectListItem> UserList { get; set; }
     }
 }

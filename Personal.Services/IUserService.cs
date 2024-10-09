@@ -11,5 +11,7 @@ namespace Personal.Services
 	{
 		void RegisterUser(UserRegistration userRegistration);
 		bool VerifyUserOnLogin(string email, string password, out User? user);
-	}
+		void UpdateUser(AccountEdit accountEdit, string currentEmail, string currentUserName, out User? user);
+
+    }
 }

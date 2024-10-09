@@ -1,4 +1,6 @@
-﻿using Personal.DataAccess.Repository.IRepository;
+﻿using Microsoft.AspNetCore.Identity;
+using Personal.DataAccess.Exceptions;
+using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
 using Personal.Utility;
 
@@ -44,6 +46,40 @@ namespace Personal.Services
 			{
 				return _passwordHasher.VerifyPassword(user.PasswordHash, user.PasswordSalt, password);
 			}
+		}
+
+		public void UpdateUser (AccountEdit accountEdit, string currentEmail, string currentUserName, out User? user)
+		{
+            User userByEmail = _unitOfWork.User.Get(u => u.Email == accountEdit.Email);
+			if (userByEmail != null && userByEmail.Email != currentEmail)
+			{
+				throw new DuplicateUserEmailException();
+			}
+
+            User userByUserName = _unitOfWork.User.Get(u => u.UserName == accountEdit.UserName);
+			if (userByUserName.UserName != null && userByUserName.UserName != currentUserName)
+            {
+                throw new DuplicateUserEmailException();
+            }
+
+            user = _unitOfWork.User.Get(u => u.Email == currentEmail);
+            
+            if (accountEdit.Password != null)
+			{
+                var passwordHash = _passwordHasher.HashPassword(accountEdit.Password);
+
+				user.PasswordHash = passwordHash.Hash;
+				user.PasswordSalt = passwordHash.Salt;
+            }
+
+			user.UserName = accountEdit.UserName;
+			user.Email = accountEdit.Email;
+			user.PasswordHash = user.PasswordHash;
+			user.PasswordSalt = user.PasswordSalt;
+			user.RoleId = user.RoleId;
+
+            _unitOfWork.User.Update(user);
+            _unitOfWork.Save();
 		}
 	}
 }

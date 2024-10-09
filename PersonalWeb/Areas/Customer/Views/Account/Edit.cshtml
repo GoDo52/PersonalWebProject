@@ -1,0 +1,56 @@
+﻿@model AccountEdit
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Edit your account information</h3>
+
+                    <!-- Add Spending Form -->
+                    <form asp-action="Edit" method="post">
+
+                        <!-- User Name Field -->
+                        <div class="form-group">
+                            <label asp-for="UserName" class="form-label"></label>
+                            <input asp-for="UserName" class="form-control" placeholder="Enter user name" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" placeholder="Enter new password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div class="form-group">
+                            <label asp-for="PasswordConfirm" class="form-label"></label>
+                            <input asp-for="PasswordConfirm" class="form-control" placeholder="Confirm new password" />
+                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                        </div>
+
+                        <!-- Register Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-outline-primary btn-lg w-100">Edit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+                <partial name="_ValidationScriptsPartial"/>
+    }
+}

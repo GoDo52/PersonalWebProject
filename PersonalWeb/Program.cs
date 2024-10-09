@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
 using Personal.DataAccess.Repository;
@@ -17,6 +18,13 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Customer/Account/Login"; // Redirect to login page if unauthenticated
+        options.AccessDeniedPath = "/Customer/Account/AccessDenied"; // Redirect if access is denied
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +39,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication(); // This is required for tracking login state
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
