@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Personal.DataAccess.Exceptions;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
-using Personal.Services;
 using Personal.Utility;
 using System.Security.Claims;
+using Personal.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PersonalWeb.Areas.Customer.Controllers
 {
@@ -15,15 +16,23 @@ namespace PersonalWeb.Areas.Customer.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISpendingService _spendingService;
 
-        public AccountController(IUnitOfWork unitOfWork, IUserService userService)
+        public AccountController(IUnitOfWork unitOfWork, IUserService userService, ISpendingService spendingService)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
+            _spendingService = spendingService;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            TempData["TotalSpendCurrMonth"] = _spendingService.AccountTotalSpendingCurrentMonth(userId);
+            TempData["TotalSpendPrevMonth"] = _spendingService.AccountTotalSpendingPreviousMonth(userId);
+
             return View();
         }
 
@@ -113,6 +122,7 @@ namespace PersonalWeb.Areas.Customer.Controllers
 
         }
 
+        [Authorize]
         public IActionResult Edit()
         {
             User userFromDb = _unitOfWork.User.Get(u => u.UserName == User.Identity.Name);
@@ -126,6 +136,7 @@ namespace PersonalWeb.Areas.Customer.Controllers
             return View(accountEdit);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(AccountEdit accountEdit)
         {

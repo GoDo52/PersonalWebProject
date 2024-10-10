@@ -4,6 +4,7 @@ using Personal.DataAccess.Data;
 using Personal.DataAccess.Repository;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Services;
+using Personal.Services.Interfaces;
 using Personal.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 );
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<ISpendingService, SpendingService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

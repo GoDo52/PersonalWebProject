@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Personal.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddMigrationTables : Migration
+    public partial class InitDataBase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,6 +40,29 @@ namespace Personal.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Spendings",
                 columns: table => new
                 {
@@ -60,27 +83,10 @@ namespace Personal.DataAccess.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_Spendings_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,20 +113,15 @@ namespace Personal.DataAccess.Migrations
                     { 3, "User" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Spendings",
-                columns: new[] { "Id", "Amount", "CategoryId", "DateTime", "Description", "UserId" },
-                values: new object[,]
-                {
-                    { 1, 10m, 1, new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2585), null, 1 },
-                    { 2, 19m, 4, new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2627), null, 2 },
-                    { 3, 5m, 2, new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2630), null, 1 }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Spendings_CategoryId",
                 table: "Spendings",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Spendings_UserId",
+                table: "Spendings",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
@@ -135,10 +136,10 @@ namespace Personal.DataAccess.Migrations
                 name: "Spendings");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Roles");

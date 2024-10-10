@@ -4,23 +4,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
 using Personal.Models.ViewModels;
+using Personal.Services.Interfaces;
 using Personal.Utility;
 using System.Security.Claims;
 
 namespace PersonalWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class SpendingController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISpendingService _spendingService;
 
-        public SpendingController(IUnitOfWork unitOfWork)
+        public SpendingController(IUnitOfWork unitOfWork, ISpendingService spendingService)
         {
             _unitOfWork = unitOfWork;
+            _spendingService = spendingService;
         }
 
         public IActionResult Index()
         {
+            TempData["LastFoodSpender"] = _spendingService.LastFoodSpender();
+            TempData["TopSpenderCurrentMonth"] = _spendingService.TopSpenderCurrentMonth();
+            TempData["TotalCurrentMonthSpending"] = _spendingService.TotalCurrentMonthSpending();
             return View();
         }
 

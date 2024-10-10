@@ -2,11 +2,12 @@
 using Personal.DataAccess.Exceptions;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Models;
+using Personal.Services.Interfaces;
 using Personal.Utility;
 
 namespace Personal.Services
 {
-	public class UserService : IUserService
+    public class UserService : IUserService
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IPasswordHasher _passwordHasher;

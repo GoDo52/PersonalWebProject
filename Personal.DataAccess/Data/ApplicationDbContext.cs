@@ -27,11 +27,11 @@ namespace Personal.DataAccess.Data
             );
 
             modelBuilder.Entity<Spending>().ToTable("Spendings");
-            modelBuilder.Entity<Spending>().HasData(
-                new Spending { Id = 1, Amount=10, CategoryId=1, DateTime=DateTime.Now, UserId=1 },
-                new Spending { Id = 2, Amount=19, CategoryId=4, DateTime=DateTime.Now, UserId=2, Description = null },
-                new Spending { Id = 3, Amount=5, CategoryId=2, DateTime=DateTime.Now, UserId=1, Description = null }
-            );
+            //modelBuilder.Entity<Spending>().HasData(
+            //    new Spending { Id = 1, Amount=10, CategoryId=1, DateTime=DateTime.Now, UserId=1 },
+            //    new Spending { Id = 2, Amount=19, CategoryId=4, DateTime=DateTime.Now, UserId=2, Description = null },
+            //    new Spending { Id = 3, Amount=5, CategoryId=2, DateTime=DateTime.Now, UserId=1, Description = null }
+            //);
 
             modelBuilder.Entity<User>().ToTable("Users");
             //modelBuilder.Entity<User>().HasData(

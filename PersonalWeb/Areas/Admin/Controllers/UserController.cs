@@ -8,13 +8,13 @@ using Personal.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Personal.DataAccess.Repository;
 using Microsoft.IdentityModel.Tokens;
-using Personal.Services;
 using Personal.DataAccess.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Personal.Services.Interfaces;
 
 namespace PersonalWeb.Areas.Admin.Controllers
 {
-	[Area("Admin")]
+    [Area("Admin")]
     [Authorize(Roles = SD.AdminRole)]
     public class UserController : Controller
 	{

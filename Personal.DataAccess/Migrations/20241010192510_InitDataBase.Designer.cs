@@ -12,8 +12,8 @@ using Personal.DataAccess.Data;
 namespace Personal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241007204132_AddMigrationTables")]
-    partial class AddMigrationTables
+    [Migration("20241010192510_InitDataBase")]
+    partial class InitDataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,33 +131,9 @@ namespace Personal.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Spendings", (string)null);
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Amount = 10m,
-                            CategoryId = 1,
-                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2585),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Amount = 19m,
-                            CategoryId = 4,
-                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2627),
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Amount = 5m,
-                            CategoryId = 2,
-                            DateTime = new DateTime(2024, 10, 7, 23, 41, 31, 553, DateTimeKind.Local).AddTicks(2630),
-                            UserId = 1
-                        });
+                    b.ToTable("Spendings", (string)null);
                 });
 
             modelBuilder.Entity("Personal.Models.User", b =>
@@ -202,7 +178,15 @@ namespace Personal.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Personal.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Personal.Models.User", b =>
