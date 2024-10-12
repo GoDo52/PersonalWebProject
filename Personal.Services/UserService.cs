@@ -22,14 +22,16 @@ namespace Personal.Services
 		{
 			var passwordHash = _passwordHasher.HashPassword(userRegistration.Password);
 
+			int userRoleId = _unitOfWork.Role.Get(u => u.Name == SD.UserRole).Id;
+
 			User newUser = new User
 			{
 				UserName = userRegistration.UserName,
 				Email = userRegistration.Email,
 				PasswordHash = passwordHash.Hash,
 				PasswordSalt = passwordHash.Salt,
-				RoleId = SD.DefaultRoleId
-			};
+				RoleId = userRoleId
+            };
 
 			_unitOfWork.User.Add(newUser);
 			_unitOfWork.Save();

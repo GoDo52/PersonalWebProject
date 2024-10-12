@@ -9,12 +9,12 @@ namespace Personal.Utility
 {
     public static class SD
     {
-        private const int V = 3;
+        //private const int V = 3;
         public const string AdminRole = "Admin";
         public const string ManagerRole = "Manager";
         public const string UserRole = "User";
         public static string[] RoleNames = { "Admin", "Manager", "User" };
-        public static int DefaultRoleId = V;
+        //public static int DefaultRoleId = V;
         //public static Dictionary<int, string> RoleNames1 = new Dictionary<int, string>();
     }
 }
