@@ -39,12 +39,12 @@ namespace Personal.DataAccess.Data
             //);
 
             modelBuilder.Entity<Role>().ToTable("Roles");
-            for ( int i = 1; i <= SD.RoleNames.Length; i++)
-            {
-                modelBuilder.Entity<Role>().HasData(
-                    new Role { Id = i, Name = SD.RoleNames[i - 1] }
-                );
-            }
+            //for ( int i = 1; i <= SD.RoleNames.Length; i++)
+            //{
+            //    modelBuilder.Entity<Role>().HasData(
+            //        new Role { Id = i, Name = SD.RoleNames[i - 1] }
+            //    );
+            //}
         }
     }
 }

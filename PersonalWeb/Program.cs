@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Personal.DataAccess.Data;
+using Personal.DataAccess.DbInitializer;
 using Personal.DataAccess.Repository;
 using Personal.DataAccess.Repository.IRepository;
 using Personal.Services;
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ISpendingService, SpendingService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -26,6 +28,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Customer/Account/Login"; // Redirect to login page if unauthenticated
         options.AccessDeniedPath = "/Customer/Account/AccessDenied"; // Redirect if access is denied
     });
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -44,9 +54,22 @@ app.UseRouting();
 
 app.UseAuthentication(); // This is required for tracking login state
 app.UseAuthorization();
+app.UseSession();
+
+SeedDatabase();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+
+}
