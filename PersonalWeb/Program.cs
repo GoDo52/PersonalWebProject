@@ -12,8 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Here get the connection string from env variable in the server
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? Environment.GetEnvironmentVariable("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>( 
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options => options.UseSqlServer(connectionString)
 );
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
