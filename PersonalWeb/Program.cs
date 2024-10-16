@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 
 // Here get the connection string from env variable in the server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                       ?? Environment.GetEnvironmentVariable("SQLCONNSTR_DefaultConnection");
+                       ?? Environment.GetEnvironmentVariable("ASPNETCORE_DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>( 
     options => options.UseSqlServer(connectionString)
 );
