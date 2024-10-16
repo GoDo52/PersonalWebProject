@@ -47,10 +47,10 @@ namespace PersonalWeb.Areas.Customer.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: implement exceptions???
-                if (_userService.VerifyUserOnLogin(userLogin.Email, userLogin.Password, out var user))
+                if (_userService.VerifyUserOnLogin(userLogin.nameEmail, userLogin.Password, out var user))
                 {
 
-                    User userFromDb = _unitOfWork.User.Get(u => u.Email == userLogin.Email, includeProperties: "Role");
+                    User userFromDb = _unitOfWork.User.Get(u => u.Email == userLogin.nameEmail || u.UserName == userLogin.nameEmail, includeProperties: "Role");
 
                     // Create user identity and claims
                     var claims = new List<Claim>

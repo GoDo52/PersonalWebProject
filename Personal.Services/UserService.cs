@@ -37,9 +37,9 @@ namespace Personal.Services
 			_unitOfWork.Save();
 		}
 
-		public bool VerifyUserOnLogin (string email, string password, out User? user)
+		public bool VerifyUserOnLogin (string nameEmail, string password, out User? user)
 		{
-			user = _unitOfWork.User.Get(u => u.Email == email);
+			user = _unitOfWork.User.Get(u => u.Email == nameEmail || u.UserName == nameEmail);
 
 			if (user == null)
 			{

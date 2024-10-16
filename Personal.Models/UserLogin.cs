@@ -11,7 +11,7 @@ namespace Personal.Models
     public class UserLogin
     {
         [Required]
-        public string Email { get; set; }
+        public string nameEmail { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
